@@ -26,8 +26,28 @@ func NewGCNumViewer() Viewer {
 	graph.SetGlobalOptions(
 		charts.WithTitleOpts(opts.Title{Title: "GC Number"}),
 		charts.WithYAxisOpts(opts.YAxis{Name: "Num"}),
+		charts.WithDataZoomOpts(opts.DataZoom{
+			Start:      0,
+			End:        100,
+			XAxisIndex: []int{0},
+		}),
 	)
-	graph.AddSeries("GcNum", []opts.LineData{})
+	graph.AddSeries("GcNum", []opts.LineData{}).
+		AddSeries("ForcedGcNum", []opts.LineData{}).
+		SetSeriesOptions(
+			charts.WithLabelOpts(
+				opts.Label{
+					Show: true,
+				}),
+			charts.WithAreaStyleOpts(
+				opts.AreaStyle{
+					Opacity: 0.8,
+				}),
+			charts.WithLineChartOpts(
+				opts.LineChart{
+					Stack: "stack",
+				}),
+		)
 
 	return &GCNumViewer{graph: graph}
 }
@@ -48,8 +68,9 @@ func (vr *GCNumViewer) Serve(w http.ResponseWriter, _ *http.Request) {
 	vr.smgr.Tick()
 
 	metrics := Metrics{
-		Values: []float64{float64(memstats.Stats.NumGC)},
-		Time:   memstats.T,
+		Values: []float64{float64(memstats.Stats.NumGC),
+			float64(memstats.Stats.NumForcedGC)},
+		Time: memstats.T,
 	}
 
 	bs, _ := json.Marshal(metrics)

@@ -26,9 +26,28 @@ func NewGCSizeViewer() Viewer {
 	graph.SetGlobalOptions(
 		charts.WithTitleOpts(opts.Title{Title: "GC Size"}),
 		charts.WithYAxisOpts(opts.YAxis{Name: "Size", AxisLabel: &opts.AxisLabel{Formatter: "{value} MB"}}),
+		charts.WithDataZoomOpts(opts.DataZoom{
+			Start:      0,
+			End:        100,
+			XAxisIndex: []int{0},
+		}),
 	)
 	graph.AddSeries("GCSys", []opts.LineData{}).
-		AddSeries("NextGC", []opts.LineData{})
+		AddSeries("NextGC", []opts.LineData{}).
+		SetSeriesOptions(
+			charts.WithLabelOpts(
+				opts.Label{
+					Show: true,
+				}),
+			charts.WithAreaStyleOpts(
+				opts.AreaStyle{
+					Opacity: 0.8,
+				}),
+			charts.WithLineChartOpts(
+				opts.LineChart{
+					Stack: "stack",
+				}),
+		)
 
 	return &GCSizeViewer{graph: graph}
 }

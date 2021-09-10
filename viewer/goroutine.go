@@ -28,8 +28,27 @@ func NewGoroutinesViewer() Viewer {
 	graph.SetGlobalOptions(
 		charts.WithYAxisOpts(opts.YAxis{Name: "Num"}),
 		charts.WithTitleOpts(opts.Title{Title: "Goroutines"}),
+		charts.WithDataZoomOpts(opts.DataZoom{
+			Start:      0,
+			End:        100,
+			XAxisIndex: []int{0},
+		}),
 	)
-	graph.AddSeries("Goroutines", []opts.LineData{})
+	graph.AddSeries("Goroutines", []opts.LineData{}).
+		SetSeriesOptions(
+			charts.WithLabelOpts(
+				opts.Label{
+					Show: true,
+				}),
+			charts.WithAreaStyleOpts(
+				opts.AreaStyle{
+					Opacity: 0.8,
+				}),
+			charts.WithLineChartOpts(
+				opts.LineChart{
+					Stack: "stack",
+				}),
+		)
 
 	return &GoroutinesViewer{graph: graph}
 }

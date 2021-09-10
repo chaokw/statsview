@@ -5,14 +5,15 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/pprof"
+	"os"
 	"time"
 
 	"github.com/go-echarts/go-echarts/v2/components"
 	"github.com/go-echarts/go-echarts/v2/templates"
 	"github.com/rs/cors"
 
-	"github.com/go-echarts/statsview/statics"
-	"github.com/go-echarts/statsview/viewer"
+	"github.com/chaokw/statsview/statics"
+	"github.com/chaokw/statsview/viewer"
 )
 
 // ViewManager
@@ -51,7 +52,7 @@ func init() {
 <html>
     {{- template "header" . }}
 <body>
-<p>&nbsp;&nbsp;🚀 <a href="https://github.com/go-echarts/statsview"><b>StatsView</b></a> <em>is a real-time Golang runtime stats visualization profiler</em></p>
+<p>&nbsp;&nbsp;🚀 <a href="https://gitlabe1.ext.net.nokia.com/godevsig"><b>GolangStatsViewer</b></a> <em>    A real-time Golang runtime stats visualization profiler</em></p>
 <style> .box { justify-content:center; display:flex; flex-wrap:wrap } </style>
 <div class="box"> {{- range .Charts }} {{ template "base" . }} {{- end }} </div>
 </body>
@@ -77,9 +78,11 @@ func New() *ViewManager {
 	}
 	mgr.Ctx, mgr.Cancel = context.WithCancel(context.Background())
 	mgr.Register(
-		viewer.NewGoroutinesViewer(),
 		viewer.NewHeapViewer(),
+		viewer.NewHeapObjectsViewer(),
 		viewer.NewStackViewer(),
+		viewer.NewOffHeapViewer(),
+		viewer.NewGoroutinesViewer(),
 		viewer.NewGCNumViewer(),
 		viewer.NewGCSizeViewer(),
 		viewer.NewGCCPUFractionViewer(),
@@ -101,8 +104,13 @@ func New() *ViewManager {
 		mux.HandleFunc("/debug/statsview/view/"+v.Name(), v.Serve)
 	}
 
-	mux.HandleFunc("/debug/statsview", func(w http.ResponseWriter, _ *http.Request) {
+	mux.HandleFunc("/", func(w http.ResponseWriter, _ *http.Request) {
 		page.Render(w)
+		f, err := os.Create("out.html")
+		if err != nil {
+			fmt.Println(err)
+		}
+		page.Render(f)
 	})
 
 	staticsPrev := "/debug/statsview/statics/"

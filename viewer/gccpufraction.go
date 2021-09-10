@@ -26,8 +26,27 @@ func NewGCCPUFractionViewer() Viewer {
 	graph.SetGlobalOptions(
 		charts.WithTitleOpts(opts.Title{Title: "GC CPUFraction"}),
 		charts.WithYAxisOpts(opts.YAxis{Name: "Percent", AxisLabel: &opts.AxisLabel{Formatter: "{value} %", Rotate: 35}}),
+		charts.WithDataZoomOpts(opts.DataZoom{
+			Start:      0,
+			End:        100,
+			XAxisIndex: []int{0},
+		}),
 	)
-	graph.AddSeries("Fraction", []opts.LineData{})
+	graph.AddSeries("Fraction", []opts.LineData{}).
+		SetSeriesOptions(
+			charts.WithLabelOpts(
+				opts.Label{
+					Show: true,
+				}),
+			charts.WithAreaStyleOpts(
+				opts.AreaStyle{
+					Opacity: 0.8,
+				}),
+			charts.WithLineChartOpts(
+				opts.LineChart{
+					Stack: "stack",
+				}),
+		)
 
 	return &GCCPUFractionViewer{graph: graph}
 }

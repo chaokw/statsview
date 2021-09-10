@@ -36,6 +36,17 @@ type Theme string
 const (
 	ThemeWesteros Theme = types.ThemeWesteros
 	ThemeMacarons Theme = types.ThemeMacarons
+
+	ThemeChalk         Theme = types.ThemeChalk
+	ThemeEssos         Theme = types.ThemeEssos
+	ThemeInfographic   Theme = types.ThemeInfographic
+	ThemePurplePassion Theme = types.ThemePurplePassion
+	ThemeRoma          Theme = types.ThemeRoma
+	ThemeRomantic      Theme = types.ThemeRomantic
+	ThemeShine         Theme = types.ThemeShine
+	ThemeVintage       Theme = types.ThemeVintage
+	ThemeWalden        Theme = types.ThemeWalden
+	ThemeWonderland    Theme = types.ThemeWonderland
 )
 
 const (
@@ -69,11 +80,11 @@ function {{ .ViewID }}_sync() {
         }
     });
 }`
-	DefaultMaxPoints  = 30
+	DefaultMaxPoints  = 30000
 	DefaultTimeFormat = "15:04:05"
 	DefaultInterval   = 2000
-	DefaultAddr       = "localhost:18066"
-	DefaultTheme      = ThemeMacarons
+	DefaultAddr       = "localhost:60023"
+	DefaultTheme      = ThemeWesteros
 )
 
 var defaultCfg = &config{
@@ -252,12 +263,12 @@ func fixedPrecision(n float64, p int) float64 {
 func newBasicView(route string) *charts.Line {
 	graph := charts.NewLine()
 	graph.SetGlobalOptions(
-		charts.WithLegendOpts(opts.Legend{Show: true}),
+		charts.WithLegendOpts(opts.Legend{Show: true, Orient: "vertical", Right: "0"}),
 		charts.WithTooltipOpts(opts.Tooltip{Show: true, Trigger: "axis"}),
 		charts.WithXAxisOpts(opts.XAxis{Name: "Time"}),
 		charts.WithInitializationOpts(opts.Initialization{
-			Width:  "600px",
-			Height: "400px",
+			Width:  "700px",
+			Height: "350px",
 			Theme:  string(defaultCfg.Theme),
 		}),
 	)
