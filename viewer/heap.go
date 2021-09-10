@@ -44,10 +44,6 @@ func NewHeapViewer() Viewer {
 		AddSeries("HeapIdle", []opts.LineData{}).
 		AddSeries("HeapReleased", []opts.LineData{}).
 		SetSeriesOptions(
-			charts.WithLabelOpts(
-				opts.Label{
-					Show: true,
-				}),
 			charts.WithAreaStyleOpts(
 				opts.AreaStyle{
 					Opacity: 0.8,
@@ -74,10 +70,6 @@ func NewHeapObjectsViewer() Viewer {
 	)
 	graph.AddSeries("HeapObjects", []opts.LineData{}).
 		SetSeriesOptions(
-			charts.WithLabelOpts(
-				opts.Label{
-					Show: true,
-				}),
 			charts.WithAreaStyleOpts(
 				opts.AreaStyle{
 					Opacity: 0.8,

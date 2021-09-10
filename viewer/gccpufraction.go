@@ -34,10 +34,6 @@ func NewGCCPUFractionViewer() Viewer {
 	)
 	graph.AddSeries("Fraction", []opts.LineData{}).
 		SetSeriesOptions(
-			charts.WithLabelOpts(
-				opts.Label{
-					Show: true,
-				}),
 			charts.WithAreaStyleOpts(
 				opts.AreaStyle{
 					Opacity: 0.8,

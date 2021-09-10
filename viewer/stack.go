@@ -10,7 +10,7 @@ import (
 
 const (
 	// VCStack is the name of StackViewer
-	VCStack = "stack memory"
+	VCStack  = "stack memory"
 	VOFFHEAP = "off heap memory"
 )
 
@@ -36,10 +36,6 @@ func NewStackViewer() Viewer {
 	graph.AddSeries("StackSys", []opts.LineData{}).
 		AddSeries("StackInuse", []opts.LineData{}).
 		SetSeriesOptions(
-			charts.WithLabelOpts(
-				opts.Label{
-					Show: true,
-				}),
 			charts.WithAreaStyleOpts(
 				opts.AreaStyle{
 					Opacity: 0.8,
@@ -80,8 +76,6 @@ func (vr *StackViewer) Serve(w http.ResponseWriter, _ *http.Request) {
 	w.Write(bs)
 }
 
-
-
 type OffHeapViewer struct {
 	smgr  *StatsMgr
 	graph *charts.Line
@@ -103,10 +97,6 @@ func NewOffHeapViewer() Viewer {
 		AddSeries("MSpanSys", []opts.LineData{}).
 		AddSeries("MSpanInuse", []opts.LineData{}).
 		SetSeriesOptions(
-			charts.WithLabelOpts(
-				opts.Label{
-					Show: true,
-				}),
 			charts.WithAreaStyleOpts(
 				opts.AreaStyle{
 					Opacity: 0.8,

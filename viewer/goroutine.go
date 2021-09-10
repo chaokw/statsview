@@ -36,10 +36,6 @@ func NewGoroutinesViewer() Viewer {
 	)
 	graph.AddSeries("Goroutines", []opts.LineData{}).
 		SetSeriesOptions(
-			charts.WithLabelOpts(
-				opts.Label{
-					Show: true,
-				}),
 			charts.WithAreaStyleOpts(
 				opts.AreaStyle{
 					Opacity: 0.8,

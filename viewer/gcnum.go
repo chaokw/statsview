@@ -35,10 +35,6 @@ func NewGCNumViewer() Viewer {
 	graph.AddSeries("GcNum", []opts.LineData{}).
 		AddSeries("ForcedGcNum", []opts.LineData{}).
 		SetSeriesOptions(
-			charts.WithLabelOpts(
-				opts.Label{
-					Show: true,
-				}),
 			charts.WithAreaStyleOpts(
 				opts.AreaStyle{
 					Opacity: 0.8,
