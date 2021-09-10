@@ -18,7 +18,7 @@ Statsview is a real-time Golang runtime stats visualization profiler. It is buil
 ## 🔰 Installation
 
 ```shell
-$ go get -u github.com/go-echarts/statsview/...
+$ go get -u github.com/chaokw/statsview/...
 ```
 
 ## 📝 Usage
@@ -30,25 +30,24 @@ package main
 
 import (
     "time"
-
     "github.com/go-echarts/statsview"
 )
 
 func main() {
-	mgr := statsview.New()
+	s := statsview.New()
 
-	// Start() runs a HTTP server at `localhost:18066` by default.
-	go mgr.Start()
+	// Start() runs a HTTP server at `localhost:60023` by default.
+	go s.Start()
 
 	// Stop() will shutdown the http server gracefully
-	// mgr.Stop()
+	// s.Stop()
 
 	// busy working....
 	time.Sleep(time.Minute)
 }
 
-// Visit your browser at http://localhost:18066/debug/statsview
-// Or debug as always via http://localhost:18066/debug/pprof, http://localhost:18066/debug/pprof/heap, ...
+// Visit your browser at http://localhost:60023
+// Or debug as always via http://localhost:60023/debug/pprof, http://localhost:60023/debug/pprof/heap, ...
 ```
 
 ## ⚙️ Configuration
@@ -61,7 +60,7 @@ Statsview gets a variety of configurations for the users. Everyone could customi
 WithInterval(interval int)
 
 // WithMaxPoints sets the maximum points of each chart series
-// default -> 30
+// default -> 30000
 WithMaxPoints(n int)
 
 // WithTemplate sets the rendered template which fetching stats from the server and
@@ -69,11 +68,11 @@ WithMaxPoints(n int)
 WithTemplate(t string)
 
 // WithAddr sets the listening address and link address
-// default -> "localhost:18066"
+// default -> "localhost:60023"
 WithAddr(addr string)
 
 // WithLinkAddr sets the html link address
-// default -> "localhost:18066"
+// default -> "localhost:60023"
 WithLinkAddr(addr string)
 
 // WithTimeFormat sets the time format for the line-chart Y-axis label
@@ -81,7 +80,7 @@ WithLinkAddr(addr string)
 WithTimeFormat(s string)
 
 // WithTheme sets the theme of the charts
-// default -> Macarons
+// default -> Westeros
 //
 // Optional:
 // * ThemeWesteros
@@ -93,39 +92,38 @@ WithTheme(theme Theme)
 
 ```golang
 import (
-    "github.com/go-echarts/statsview"
-    "github.com/go-echarts/statsview/viewer"
+    "github.com/chaokw/statsview"
+    "github.com/chaokw/statsview/viewer"
 )
 
 // set configurations before calling `statsview.New()` method
-viewer.SetConfiguration(viewer.WithTheme(viewer.ThemeWesteros), viewer.WithAddr("localhost:8087"))
+viewer.SetConfiguration(viewer.WithAddr(":60023"), viewer.WithLinkAddr("10.182.105.147:60023"))
 
-mgr := statsview.New()
-go mgr.Start()
+s := statsview.New()
+go s.Start()
 ```
 
 ## 🗂 Viewers
 
 Viewer is the abstraction of a Graph which in charge of collecting metrics from Runtime. Statsview provides some default viewers as below.
 
-* `GCCPUFractionViewer`
+* `HeapViewer`
+* `HeapObjectsViewer`
+* `StackViewer`
+* `OffHeapViewer`
+* `GoroutinesViewer`
 * `GCNumViewer`
 * `GCSizeViewer`
-* `GoroutinesViewer`
-* `HeapViewer`
-* `StackViewer`
+* `GCCPUFractionViewer`
 
 Viewer wraps a go-echarts [*charts.Line](https://github.com/go-echarts/go-echarts/blob/master/charts/line.go) instance that means all options/features on it could be used. To be honest, I think that is the most charming thing about this project.
 
 ## 🔖 Snapshot
 
-#### ThemeMacarons(default)
+![Macarons](https://github.com/chaokw/statsview/blob/master/images/statsview1.png)
 
-![Macarons](https://user-images.githubusercontent.com/19553554/99491359-92d9f680-29a6-11eb-99c8-bc333cb90893.png)
+![Macarons](https://github.com/chaokw/statsview/blob/master/images/statsview2.png)
 
-#### ThemeWesteros
-
-![Westeros](https://user-images.githubusercontent.com/19553554/99491179-42629900-29a6-11eb-852b-694662fcd3aa.png)
 
 ## 📄 License
 
