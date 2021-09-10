@@ -30,7 +30,7 @@ package main
 
 import (
     "time"
-    "github.com/go-echarts/statsview"
+    "github.com/chaokw/statsview"
 )
 
 func main() {
