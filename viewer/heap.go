@@ -43,6 +43,7 @@ func NewHeapViewer() Viewer {
 		AddSeries("HeapSys", []opts.LineData{}).
 		AddSeries("HeapIdle", []opts.LineData{}).
 		AddSeries("HeapReleased", []opts.LineData{}).
+		AddSeries("[HeapReserved]", []opts.LineData{}).
 		SetSeriesOptions(
 			charts.WithAreaStyleOpts(
 				opts.AreaStyle{
@@ -104,6 +105,7 @@ func (vr *HeapViewer) Serve(w http.ResponseWriter, _ *http.Request) {
 			fixedPrecision(float64(memstats.Stats.HeapSys)/1024/1024, 2),
 			fixedPrecision(float64(memstats.Stats.HeapIdle)/1024/1024, 2),
 			fixedPrecision(float64(memstats.Stats.HeapReleased)/1024/1024, 2),
+			fixedPrecision(float64(memstats.Stats.HeapIdle-memstats.Stats.HeapReleased)/1024/1024, 2),
 		},
 		Time: memstats.T,
 	}
